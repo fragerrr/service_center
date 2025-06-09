@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file:  db/changelog/001_init/001_schema.sql
+  - include:
+      file:  db/changelog/001_init/002_indexes.sql
