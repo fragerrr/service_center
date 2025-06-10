@@ -1,14 +1,15 @@
 package kz.justdika.service_center.controller;
 
+import kz.justdika.service_center.model.dto.ClaimListResponse;
 import kz.justdika.service_center.model.dto.claim.ClaimCreateRequest;
 import kz.justdika.service_center.model.dto.claim.ClaimCreateResponse;
+import kz.justdika.service_center.model.enums.ClaimStatus;
 import kz.justdika.service_center.service.ClaimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/claim")
@@ -22,5 +23,16 @@ public class ClaimController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/by/phone-number")
+    public ResponseEntity<List<ClaimListResponse>> getList(String phoneNumber){
+        return ResponseEntity.ok(claimService.findAllByPhoneNumber(phoneNumber));
+    }
+
+    @GetMapping("/by/status")
+    public ResponseEntity<List<ClaimListResponse>> getList(ClaimStatus status){
+        return ResponseEntity.ok(claimService.findByStatus(status));
+    }
+
 }
 

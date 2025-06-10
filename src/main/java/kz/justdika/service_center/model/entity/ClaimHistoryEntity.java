@@ -33,6 +33,7 @@ public class ClaimHistoryEntity {
 
     @Setter
     @Column(name = "old_status")
+    @Enumerated(value = EnumType.STRING)
     private ClaimStatus oldStatus;
 
     @Setter
