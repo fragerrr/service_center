@@ -2,37 +2,56 @@ package kz.justdika.service_center.model.entity;
 
 import jakarta.persistence.*;
 import kz.justdika.service_center.model.enums.ClaimStatus;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 /**
  * @author justdika
  */
+@Accessors(fluent = true)
 @Entity
 @Table(name = "claim_history")
+@Getter
+@EntityListeners(AuditingEntityListener.class)
 public class ClaimHistoryEntity {
     @Id
-    @SequenceGenerator(name = "seq_claim_id", sequenceName = "seq_claim_id", allocationSize = 1)
-    @GeneratedValue(generator = "seq_claim_id", strategy = GenerationType.SEQUENCE)
-    public Long id;
+    @SequenceGenerator(name = "seq_claim_history_id", sequenceName = "seq_claim_history_id", allocationSize = 1)
+    @GeneratedValue(generator = "seq_claim_history_id", strategy = GenerationType.SEQUENCE)
+    private Long id;
 
+    @Setter
     @Column(name = "created_at")
-    public LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
+    @Setter
     @Column(name = "created_by")
-    public String createdBy;
+    private String createdBy;
 
+    @Setter
     @Column(name = "old_status")
-    public ClaimStatus oldStatus;
+    private ClaimStatus oldStatus;
 
+    @Setter
     @Column(name = "new_status")
     @Enumerated(value = EnumType.STRING)
-    public ClaimStatus newStatus;
+    private ClaimStatus newStatus;
 
     @ManyToOne
     @JoinColumn(name = "claim_id", referencedColumnName = "id")
-    public ClaimEntity claim;
+    private ClaimEntity claim;
 
     @Column(name = "claim_id", insertable = false, updatable = false)
-    public Long claimId;
+    private Long claimId;
+
+    public ClaimHistoryEntity claim(ClaimEntity claimEntity) {
+        this.claim = claimEntity;
+        if(claimEntity != null){
+            this.claimId = claimEntity.id();
+        }
+        return this;
+    }
 }

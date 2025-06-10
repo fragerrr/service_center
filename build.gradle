@@ -20,7 +20,20 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
+}
+
+tasks.withType(Test).configureEach {
+	jvmArgs += "--enable-preview"
+}
+
+tasks.withType(JavaExec).configureEach {
+	jvmArgs += "--enable-preview"
+}
+
+tasks.withType(JavaCompile).each {
+	it.options.compilerArgs.add('--enable-preview')
 }
 
 dependencies {
@@ -36,6 +49,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation("org.mockito:mockito-inline:5.2.0")
 }
 
 tasks.named('test') {

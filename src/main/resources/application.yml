@@ -6,3 +6,12 @@ spring:
     password: example
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.yml
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: claim_group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

@@ -16,8 +16,8 @@ import lombok.experimental.Accessors;
 @Getter
 public class BreakReason {
     @Id
-    @SequenceGenerator(name = "seq_claim_history_id", sequenceName = "seq_claim_history_id", allocationSize = 1)
-    @GeneratedValue(generator = "seq_claim_history_id", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "seq_break_reason_id", sequenceName = "seq_break_reason_id", allocationSize = 1)
+    @GeneratedValue(generator = "seq_break_reason_id", strategy = GenerationType.SEQUENCE)
     public Integer id;
 
     @Setter

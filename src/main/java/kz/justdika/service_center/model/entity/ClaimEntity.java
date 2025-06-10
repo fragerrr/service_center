@@ -29,7 +29,6 @@ public class ClaimEntity {
     private ClaimStatus status;
 
     @ManyToOne
-    @Setter
     @JoinColumn(name = "reason_id")
     private BreakReason reason;
 
