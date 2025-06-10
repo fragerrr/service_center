@@ -3,6 +3,7 @@ package kz.justdika.service_center.service;
 import kz.justdika.service_center.config.ServiceCenterTestConfiguration;
 import kz.justdika.service_center.model.dto.claim.ClaimCreateRequest;
 import kz.justdika.service_center.model.enums.ClaimStatus;
+import kz.justdika.service_center.model.event.ClaimCreatedEvent;
 import kz.justdika.service_center.repository.ClaimHistoryRepository;
 import kz.justdika.service_center.repository.ClaimRepository;
 import kz.justdika.service_center.repository.ClientRepository;
@@ -49,6 +50,7 @@ public class ClaimHistoryServiceTest {
 
         var result = claimService.create(request);
 
+        sut.claimCreated(new ClaimCreatedEvent(String.valueOf(result.id())));
         var history = claimHistoryRepository.findByClaimId(result.id()).orElse(null);
         assertThat(history).isNotNull();
 

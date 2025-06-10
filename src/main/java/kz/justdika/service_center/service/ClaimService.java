@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(rollbackFor = Exception.class)
 public class ClaimService {
     private final ClientService clientService;
     private final ClaimRepository claimRepository;
     private final ApplicationEventPublisher publisher;
 
+    @Transactional
     public ClaimCreateResponse create(ClaimCreateRequest request){
         var client = clientService.getByPhoneNumber(request.getPhoneNumber());
 

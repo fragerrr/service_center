@@ -24,6 +24,10 @@ public class KafkaRepairedListenerService {
 
         claimRepository.save(claim);
         log.info("Finish claim chain");
+
+        log.info("\n ---------------------------------------------------------------------\n " +
+                "Your car was repaired successfully" +
+                "\n ---------------------------------------------------------------------");
     }
 
 }

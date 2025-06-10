@@ -10,9 +10,9 @@ import kz.justdika.service_center.repository.ClaimRepository;
 import kz.justdika.service_center.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ public class ClaimHistoryService {
     private final ClaimRepository claimRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    @TransactionalEventListener
     public void claimCreated(ClaimCreatedEvent claimCreatedEvent) {
         log.info("claimCreatedEvent={}", claimCreatedEvent);
         var claimEntity = claimRepository.findById(Long.valueOf(claimCreatedEvent.claimId())).get();
@@ -40,7 +40,7 @@ public class ClaimHistoryService {
         kafkaTemplate.send(Constants.Claim.CLAIM_CREATED, String.valueOf(claimEntity.id()));
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    @EventListener
     public void claimProcessed(ClaimProcessedEvent claimProcessedEvent) {
         log.info("claimProcessedEvent={}", claimProcessedEvent);
         var claimEntity = claimRepository.findById(Long.valueOf(claimProcessedEvent.claimId())).get();
@@ -55,7 +55,7 @@ public class ClaimHistoryService {
         kafkaTemplate.send(Constants.Claim.CLAIM_PROCESSED, String.valueOf(claimEntity.id()));
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    @EventListener
     public void claimRepaired(ClaimRepairEvent claimRepairEvent) {
         log.info("claimProcessedEvent={}", claimRepairEvent);
         var claimEntity = claimRepository.findById(Long.valueOf(claimRepairEvent.claimId())).get();
